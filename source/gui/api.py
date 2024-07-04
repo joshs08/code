@@ -1,6 +1,8 @@
 import json
 from collections import namedtuple
-from source.communication.pycboard import MsgType
+import sys
+sys.path.insert(0, '/home/colin/Documents/GitHub/code/source/communication')
+from pycboard import MsgType
 
 
 class Api:

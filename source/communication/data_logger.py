@@ -3,7 +3,9 @@ import json
 import numpy as np
 from datetime import datetime
 from shutil import copyfile
-from .message import MsgType, Datatuple
+import sys
+sys.path.insert(0, '/home/colin/Documents/GitHub/code/source/communication')
+from message import MsgType, Datatuple
 
 # ----------------------------------------------------------------------------------------
 #  Data_logger

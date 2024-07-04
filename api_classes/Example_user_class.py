@@ -1,13 +1,31 @@
-# Example user class that can be used as an interface between the computer and
-# the state machine running on the pyboard.
-# This class can respond to states, events, prints, variable changes, and analog data
-# This file will be running on your desktop computer and can therefore be used
-# for heavy processing or to interact with programs outside of PyControl GUI using
-# whatever Python libraries you'd like.
+import sys
+sys.path.insert(0, '/home/colin/Documents/GitHub/code/source/gui')
+from api import Api
+import time
+#from multiprocessing import Process,Pipe
 
+#new
+# import multiprocessing
+# from ctypes import c_char_p
+# s = multiprocessing.Manager().Value(c_char_p, '')
+# event = multiprocessing.Event()
 
-import random
-from source.gui.api import Api
+# def update(arg1):
+#     time.sleep(5)
+#     s.value = arg1  # updates global variable s
+#     event.set() # show we have a new value
+
+# def send(child_conn):
+#     event.wait() # wait for new s value
+#     msg = s.value
+#     child_conn.send(msg)
+#     child_conn.close()
+
+def f(child_conn):
+    tt = time.time()
+    msg = "Time is {}".format(tt)#prints with timestamp
+    child_conn.send(msg)
+    child_conn.close()
 
 
 # This class should be have the same name as the file and inherit the API class
@@ -18,28 +36,22 @@ class Example_user_class(Api):
 
     # this runs at the start of sessoin
     def run_start(self):
-        self.print_to_log("\nYou can print directly to the log from user class")
+        self.print_to_log("\nAPI success")
 
     # use this function
     def process_data_user(self, data):
-        # check if state changed to LED_off
-        LED_off_happened = [state.name == "LED_off" for state in data["states"]]
-        if LED_off_happened:
-            self.off_count += 1
-            new_duration = random.triangular(0.1, 1, 5.5)
-            self.set_variable("LED_duration", round(new_duration, 3))
-            if self.off_count % 4 == 0:
-                self.trigger_event("event_a")
-
-        # check for print message from task
-        msgs_from_task = [printed.data.split("=")[1] for printed in data["prints"] if "vals_from_task=" in printed.data]
-        for msg in msgs_from_task:
-            x, y, z = msg.split(",")
-            total = int(x) + int(y) + int(z)
-            self.print_message("{} and {} and {} total to {}".format(x, y, z, total))
-
-    def run_start(self):
-        self.print_to_log("\nMessage from config/user_classes/Example_user_class.py at the start of the run")
-
+        imaging = [state.name == "imaging_on" for state in data["states"]]
+        if imaging == [True]:
+            tt = time.time()
+            self.print_message("Time is {}".format(tt))#prints with timestamp
+            #new
+            # x = "Time is {}".format(tt)
+            # p1 = multiprocessing.Process(target=update, args=(x,))
+            # p2 = multiprocessing.Process(target=send)
+            # p1.start()
+            # p2.start()
+            # p1.join()
+            # p2.join()
+            
     def run_stop(self):
         self.print_to_log("\nMessage from config/user_classes/Example_user_class.py at the end of the run")

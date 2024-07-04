@@ -5,10 +5,13 @@ import json
 import inspect
 from serial import SerialException
 from array import array
-from .pyboard import Pyboard, PyboardError
-from .data_logger import Data_logger
-from .message import MsgType, Datatuple
-from source.gui.settings import VERSION, user_folder
+import sys
+sys.path.insert(0, '/home/colin/Documents/GitHub/code/source/communication')
+from pyboard import Pyboard, PyboardError
+from data_logger import Data_logger
+from message import MsgType, Datatuple
+sys.path.insert(0, '/home/colin/Documents/GitHub/code/source/gui')
+from settings import VERSION, user_folder
 from dataclasses import dataclass
 
 # ----------------------------------------------------------------------------------------
