@@ -112,18 +112,9 @@ class Api:
         for nd in new_data:
             if nd.type == MsgType.PRINT:
                 data["prints"].append(self.print_tup(nd.content, nd.time))
-            elif nd.type == MsgType.VARBL:
-                var_change_dict = json.loads(nd.content)
-                name = list(var_change_dict.keys())[0]
-                value = list(var_change_dict.values())[0]
-                data["vars"].append(self.var_tup(name, value, nd.time))
-            elif nd.type == MsgType.STATE:
-                name = self.ID2name[nd.content]
-                data["states"].append(self.state_tup(name, nd.time))
+            
             elif nd.type == MsgType.EVENT:
                 name = self.ID2name[nd.content]
                 data["events"].append(self.event_tup(name, nd.time))
-            elif nd.type == MsgType.ANLOG:
-                data["analog"].append(self.analog_tup(self.ID2analog[nd.content[0]], nd.content[1], nd.time))
 
         self.process_data_user(data)
