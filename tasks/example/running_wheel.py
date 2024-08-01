@@ -7,10 +7,10 @@ from devices import *
 
 # Variables.
 
-v.run_time = 10 * second  # Time subject must run to obtain reward.
+v.run_time = 0.1 * second  # Time subject must run to obtain reward.
 v.stop_time = 5 * second  # Time subject must stop running to intiate the next trial.
 v.reward_duration = 100 * ms  # Time reward solenoid is open for.
-v.velocity_threshold = 100  # Minimum encoder velocity treated as running (encoder counts/second).
+v.velocity_threshold = 1  # Minimum encoder velocity treated as running (encoder counts/second).
 
 # Instantiate hardware - would normally be in a seperate hardware definition file.
 
